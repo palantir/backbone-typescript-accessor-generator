@@ -1,7 +1,7 @@
 {
   "name": "model-maker",
   "dependencies" : {
-    "underscore": "1.4.x",
-    "js-yaml": "2.1.x"
+    "underscore": "1.x.x",
+    "js-yaml": "2.x.x"
   }
 }

@@ -1,7 +1,8 @@
 
 var fs = require('fs'),
     us = require('underscore'),
-  yaml = require('js-yaml');
+  yaml = require('js-yaml'),
+  path = require('path');
 
 if (!process.argv[2]) {
   console.log('requires argument');
@@ -9,9 +10,8 @@ if (!process.argv[2]) {
 }
 
 var models_location = process.argv[2],
-    models_json_path = models_location+'.models.yml',
-    models = yaml.safeLoad(fs.readFileSync(models_json_path, encoding='utf-8')),
-    out_path = models_location+'.models.ts';
+    out_path = path.basename(models_location, '.models.yml') + '-models.ts',
+    models = yaml.safeLoad(fs.readFileSync(models_location, encoding='utf-8'));
 
 function mapHash(hash, mapper) {
   return Object.keys(hash).map(function(key){
