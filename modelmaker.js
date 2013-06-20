@@ -1,3 +1,4 @@
+
 var fs = require('fs'),
     us = require('underscore');
 
@@ -39,3 +40,10 @@ var normalized_models = mapHash(models, function(model_name, members){
 var template = fs.readFileSync(__dirname + '/template.ts', encoding='utf-8');
 var output = us.template(template, {models: normalized_models});
 fs.writeFileSync(out_path, output);
+
+/*
+TODO:
+[ ] grunt plugin
+[ ] add to npm
+[ ] throw on additional fields
+*/

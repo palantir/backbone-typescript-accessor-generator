@@ -1,3 +1,4 @@
+fromJSON ignores attributes not defined in the models.json file.
 
 ---
 
