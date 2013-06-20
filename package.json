@@ -1,5 +1,10 @@
 {
   "name": "model-maker",
+  "version": "0.1.0",
+  "main": "modelmaker.js",
+  "bin": {
+    "modelgen": "bin/modelgen"
+  },
   "dependencies" : {
     "underscore": "1.x.x",
     "js-yaml": "2.x.x"

@@ -21,7 +21,7 @@ function checkAndRemove(arr, val) {
 var primitives = ['string', 'bool', 'number'],
     for_backbone = true;
 
-function generate_typescript(src, dest) {
+exports.generate_typescript = function(src, dest) {
   var models = yaml.safeLoad(fs.readFileSync(src, encoding='utf-8'));
 
   var normalized_models = mapHash(models, function(model_name, members){

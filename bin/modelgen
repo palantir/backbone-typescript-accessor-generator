@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+console.log('this is staritng');
+
 var modelmaker = require('../modelmaker');
 
 var models_ext = '.models.yml',
@@ -14,4 +16,6 @@ function default_dest(src) {
 process.argv.slice(2).forEach(function(src){
   modelmaker.generate_typescript(src, default_dest(src));
 })
+
+console.log('this is finished');
 
