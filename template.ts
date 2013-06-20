@@ -15,7 +15,7 @@ class _<%= model.name %> extends Backbone.Model {
     var attributes = {};
     <% model.members.forEach(function(member){ %>
       if ("<%= member.name %>" in json) {
-        <% if (_.contains(['string', 'bool', 'number'], member.type)) { %>
+        <% if (_.contains(primitives, member.type)) { %>
           attributes["<%= member.name %>"] = json["<%= member.name %>"];
         <% } else { %>
           attributes["<%= member.name %>"] = <%= member.type %>.fromJSON(json["<%= member.name %>"]);

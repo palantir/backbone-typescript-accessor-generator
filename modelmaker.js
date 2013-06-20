@@ -18,6 +18,10 @@ function checkAndRemove(arr, val) {
   return true;
 }
 
+var primitives = ['string', 'bool', 'number'],
+    models_ext = '.models.yml',
+    out_ext = '-models.ts';
+
 function generate_typescript(src, dest) {
   var models = yaml.safeLoad(fs.readFileSync(src, encoding='utf-8'));
 
@@ -37,14 +41,14 @@ function generate_typescript(src, dest) {
   });
 
   var template = fs.readFileSync(__dirname + '/template.ts', encoding='utf-8');
-  var output = us.template(template, {models: normalized_models});
+  var output = us.template(template, {models: normalized_models, primitives: primitives});
   fs.writeFileSync(dest, output);
 }
 
 function default_dest(src) {
-  var basename = path.basename(src, '.models.yml');
+  var basename = path.basename(src, models_ext);
   var dir = path.dirname(src);
-  return path.join(dir, basename + '-models.ts');
+  return path.join(dir, basename + out_ext);
 }
 
 if (!process.argv[2]) {
