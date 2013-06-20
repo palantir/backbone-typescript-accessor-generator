@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 var fs = require('fs'),
     us = require('underscore'),
@@ -44,19 +43,6 @@ function generate_typescript(src, dest) {
   var output = us.template(template, {models: normalized_models, primitives: primitives});
   fs.writeFileSync(dest, output);
 }
-
-var models_ext = '.models.yml',
-    out_ext = '-models.ts';
-
-function default_dest(src) {
-  var basename = path.basename(src, models_ext);
-  var dir = path.dirname(src);
-  return path.join(dir, basename + out_ext);
-}
-
-process.argv.slice(2).forEach(function(src){
-  generate_typescript(src, default_dest(src));
-})
 
 /*
 TODO:

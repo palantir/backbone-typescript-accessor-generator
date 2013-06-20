@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+var modelmaker = require('../modelmaker');
+
+var models_ext = '.models.yml',
+    out_ext = '-models.ts';
+
+function default_dest(src) {
+  var basename = path.basename(src, models_ext);
+  var dir = path.dirname(src);
+  return path.join(dir, basename + out_ext);
+}
+
+process.argv.slice(2).forEach(function(src){
+  modelmaker.generate_typescript(src, default_dest(src));
+})
+
