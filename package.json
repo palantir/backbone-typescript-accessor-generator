@@ -1,0 +1,6 @@
+{
+  "name": "model-maker",
+  "dependencies" : {
+    "underscore": "1.4.x"
+  }
+}
