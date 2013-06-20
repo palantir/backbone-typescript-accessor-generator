@@ -4,15 +4,6 @@ var fs = require('fs'),
   yaml = require('js-yaml'),
   path = require('path');
 
-if (!process.argv[2]) {
-  console.log('requires argument');
-  process.exit();
-}
-
-var models_location = process.argv[2],
-    out_path = path.basename(models_location, '.models.yml') + '-models.ts',
-    models = yaml.safeLoad(fs.readFileSync(models_location, encoding='utf-8'));
-
 function mapHash(hash, mapper) {
   return Object.keys(hash).map(function(key){
     var value = hash[key];
@@ -27,24 +18,43 @@ function checkAndRemove(arr, val) {
   return true;
 }
 
-var normalized_models = mapHash(models, function(model_name, members){
-  return {
-    name: model_name,
-    members: mapHash(members, function(member_name, member_def){
-      var member_opts = member_def.split(' ');
-      return {
-        name: member_name,
-        readonly: checkAndRemove(member_opts, 'readonly'),
-        optional: checkAndRemove(member_opts, 'optional'),
-        type: us.last(member_opts)
-      };
-    })
-  };
-});
+function generate_typescript(src, dest) {
+  var models = yaml.safeLoad(fs.readFileSync(src, encoding='utf-8'));
 
-var template = fs.readFileSync(__dirname + '/template.ts', encoding='utf-8');
-var output = us.template(template, {models: normalized_models});
-fs.writeFileSync(out_path, output);
+  var normalized_models = mapHash(models, function(model_name, members){
+    return {
+      name: model_name,
+      members: mapHash(members, function(member_name, member_def){
+        var member_opts = member_def.split(' ');
+        return {
+          name: member_name,
+          readonly: checkAndRemove(member_opts, 'readonly'),
+          optional: checkAndRemove(member_opts, 'optional'),
+          type: us.last(member_opts)
+        };
+      })
+    };
+  });
+
+  var template = fs.readFileSync(__dirname + '/template.ts', encoding='utf-8');
+  var output = us.template(template, {models: normalized_models});
+  fs.writeFileSync(dest, output);
+}
+
+function default_dest(src) {
+  var basename = path.basename(src, '.models.yml');
+  var dir = path.dirname(src);
+  return path.join(dir, basename + '-models.ts');
+}
+
+if (!process.argv[2]) {
+  console.log('requires argument');
+} else {
+  var src = process.argv[2];
+  generate_typescript(src, default_dest(src));
+}
+
+
 
 /*
 TODO:
