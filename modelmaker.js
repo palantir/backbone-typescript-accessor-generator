@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 var fs = require('fs'),
     us = require('underscore'),
@@ -19,8 +20,7 @@ function checkAndRemove(arr, val) {
 }
 
 var primitives = ['string', 'bool', 'number'],
-    models_ext = '.models.yml',
-    out_ext = '-models.ts';
+    for_backbone = true;
 
 function generate_typescript(src, dest) {
   var models = yaml.safeLoad(fs.readFileSync(src, encoding='utf-8'));
@@ -45,25 +45,25 @@ function generate_typescript(src, dest) {
   fs.writeFileSync(dest, output);
 }
 
+var models_ext = '.models.yml',
+    out_ext = '-models.ts';
+
 function default_dest(src) {
   var basename = path.basename(src, models_ext);
   var dir = path.dirname(src);
   return path.join(dir, basename + out_ext);
 }
 
-if (!process.argv[2]) {
-  console.log('requires argument');
-} else {
-  var src = process.argv[2];
+process.argv.slice(2).forEach(function(src){
   generate_typescript(src, default_dest(src));
-}
-
-
+})
 
 /*
 TODO:
 [ ] grunt plugin
-[ ] handle paths more reasonably
+[ ] use optimist https://github.com/substack/node-optimist
+[ ] handle arrays (of primitives, models, and other?)
+[ ] add usage to readme
 [ ] add to npm
 [ ] throw on additional fields
 */
