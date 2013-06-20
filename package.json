@@ -1,7 +1,7 @@
 {
   "name": "model-maker",
   "version": "0.1.0",
-  "main": "modelmaker.js",
+  "main": "lib/modelmaker.js",
   "bin": {
     "modelgen": "bin/modelgen"
   },
