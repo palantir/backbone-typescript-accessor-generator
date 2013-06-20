@@ -1,6 +1,26 @@
 {
-  "name": "model-maker",
+  "name": "backbone-typescript-accessor-generator",
+  "description": "Generates backbone models with typed subclasses for useing Backbone.js with TypeScript and its type system",
   "version": "0.1.0",
+  "homepage": "-",
+  "author": {
+    "name": "Palantir Technologies",
+    "email": "-",
+    "url": "-"
+  },
+  "repository": {
+    "type": "git",
+    "url": "-"
+  },
+  "bugs": {
+    "url": "-"
+  },
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "-/blob/master/LICENSE-Apache-2.0"
+    }
+  ],
   "main": "lib/modelmaker.js",
   "bin": {
     "modelgen": "bin/modelgen"
@@ -8,5 +28,11 @@
   "dependencies" : {
     "underscore": "1.x.x",
     "js-yaml": "2.x.x"
-  }
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.1"
+  },
+  "keywords": [
+    "gruntplugin", "typescript", "backbone.js"
+  ]
 }
