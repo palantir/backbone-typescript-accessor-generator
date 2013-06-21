@@ -9,10 +9,12 @@
 class _<%= model.name %> extends Backbone.Model {
   <% model.members.forEach(function(member){ %>
 
-    public get_<%=member.name%>() : <%=member.type%> { return this.get('<%=member.name%>'); }
+    public get_<%=member.name%>() : <%=member.type.typename%> { return this.get('<%=member.name%>'); }
 
     <% if (!member.readonly) { %>
-    public set_<%=member.name%>(val : <%=member.type%>) : void { this.set('<%=member.name%>', val); }
+    public set_<%=member.name%>(val : <%=member.type.typename%>) : void {
+      this.set('<%=member.name%>', val);
+    }
     <% } %>
 
   <% }); %>
@@ -20,16 +22,19 @@ class _<%= model.name %> extends Backbone.Model {
   static fromJSON(json) : <%= model.name %> {
     var attributes = {};
     <% model.members.forEach(function(member){ %>
-      if ("<%= member.name %>" in json) {
-        <% if (_.contains(primitives, member.type)) { %>
-          attributes["<%= member.name %>"] = json["<%= member.name %>"];
-        <% } else { %>
-          attributes["<%= member.name %>"] = <%= member.type %>.fromJSON(json["<%= member.name %>"]);
+      if ('<%= member.name %>' in json) {
+        <% if (isPrimitive(member.type)) { %>
+          attributes['<%= member.name %>'] = json['<%= member.name %>'];
+        <% } else if (member.type.typename !== 'array') { %>
+          attributes['<%= member.name %>'] = <%= member.type.typename %>.fromJSON(json['<%= member.name %>']);
+        <% } else if (member.type === 'array') { %>
+          //working on this one; doesn't support nested arrays
+          attributes['<%= member.name %>'] = json['<%= member.name %>'].map(<%= member.type.typename %>.fromJSON);
         <% } %>
       }
       <% if (!member.optional) { %>
       else {
-        throw "JSON failed validation";
+        throw 'JSON failed validation';
       }
       <% } %>
     <% }); %>
