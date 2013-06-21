@@ -7,7 +7,7 @@ models are declared as YAML, such as
 
 ```YAML
 Todo:
-  content: string
+  content: string[]
   done: optional bool
   person: A
 
@@ -17,17 +17,25 @@ A:
 
 and generates code in the form of
 
-```typescript
-class Model extends Backbone.Model {
+```ts
+class _Model extends Backbone.Model {
   get_member() : member_type { return this.get('member'); }
   set_member(val : member_type) : void { this.set('member', val); }
-  fromJSON(json) : {...}
+  fromJSON(json) : { ... }
 }
 ```
 
-members declared `optional` do not raise an exception if missing from a json loaded in fromJSON.
-members declared `readonly` do not have set_member generated.
+- members declared `optional` do not raise an exception if missing from a json loaded in fromJSON.
 
+- members declared `readonly` do not have set_member generated.
+
+the type for each member is a typescript type and must not contain spaces
+
+Do not use the `_Model` classes directly!  Instead, you **must** subclass them.  For a minimal model, this typically means
+```ts
+class Model extends _Model {}
+```
+but usually you'll want to add methods.
 
 ## Grunt plugin
 This plugin requires Grunt `~0.4.1`
@@ -62,20 +70,6 @@ grunt.initConfig({
 })
 ```
 
-### Options
-
-#### options.separator
-Type: `String`
-Default value: `',  '`
-
-A string value that is used to do something with whatever.
-
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
-
-A string value that is used to do something else with whatever else.
-
 ### Usage Examples
 
 #### Default Options
@@ -108,9 +102,6 @@ grunt.initConfig({
   },
 })
 ```
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
 _(Nothing yet)_
