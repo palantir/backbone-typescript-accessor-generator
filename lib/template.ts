@@ -23,14 +23,7 @@ class _<%= model.name %> extends Backbone.Model {
     var attributes = {};
     <% model.members.forEach(function(member){ %>
       if ('<%= member.name %>' in json) {
-        <% if (isPrimitive(member.type)) { %>
-          attributes['<%= member.name %>'] = json['<%= member.name %>'];
-        <% } else if (member.type.typename !== 'array') { %>
-          attributes['<%= member.name %>'] = <%= member.type.typename %>.fromJSON(json['<%= member.name %>']);
-        <% } else if (member.type === 'array') { %>
-          //working on this one; doesn't support nested arrays
-          attributes['<%= member.name %>'] = json['<%= member.name %>'].map(<%= member.type.typename %>.fromJSON);
-        <% } %>
+          attributes['<%= member.name %>'] = <%= deserialized(member.type, 'json["' + member.name + '"]') %>;
       }
       <% if (!member.optional) { %>
       else {
