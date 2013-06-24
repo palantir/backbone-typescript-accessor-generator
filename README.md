@@ -1,4 +1,4 @@
-# grunt-backbone-typescript-accessor-generator
+# backbone-typescript-accessor-generator
 
 > Generates backbone models with typed subclasses for useing Backbone.js with TypeScript and its type system
 
