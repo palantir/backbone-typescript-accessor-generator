@@ -5,6 +5,10 @@
   "author": {
     "name": "Palantir Technologies"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/palantir/backbone-typescript-accessor-generator.git"
+  }
   "licenses": [
     {
       "type": "Apache-2.0",
