@@ -1,6 +1,6 @@
 # backbone-typescript-accessor-generator
 
-> Generates backbone models with typed subclasses for useing Backbone.js with TypeScript and its type system
+> Generates Backbone models with typed subclasses for using Backbone.js with TypeScript and its type system.
 
 ## Getting Started
 models are declared as YAML, such as
